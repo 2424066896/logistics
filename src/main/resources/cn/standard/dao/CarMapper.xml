@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.standard.dao.CarMapper">
+  <resultMap id="BaseResultMap" type="cn.standard.pojo.Car">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="carnum" jdbcType="VARCHAR" property="carnum" />
+    <result column="cartype" jdbcType="VARCHAR" property="cartype" />
+    <result column="driverid" jdbcType="INTEGER" property="driverid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, carnum, cartype, driverid, sendbillid
+  </sql>
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <resultMap id="carMap" type="cn.standard.pojo.Car">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="carnum" jdbcType="VARCHAR" property="carnum" />
+    <result column="cartype" jdbcType="VARCHAR" property="cartype" />
+    <result column="driverid" jdbcType="INTEGER" property="driverid" />
+    <collection property="sendbillList" ofType="Sendbill">
+      <id column="s_id" jdbcType="INTEGER" property="id" />
+      <result column="start" jdbcType="VARCHAR" property="start" />
+      <result column="end" jdbcType="VARCHAR" property="end" />
+      <result column="senddate"  property="senddate" />
+      <result column="sendnum" jdbcType="VARCHAR" property="sendnum" />
+      <result column="goods" jdbcType="VARCHAR" property="goods" />
+    </collection>
+  </resultMap>
+  <select id="selectByCarNumber" resultMap="carMap" parameterType="java.lang.String">
+    select c.*,s.id as s_id,s.start,s.end,s.senddate,s.sendnum,s.goods
+    from car as c,sendbill as s
+    where
+    c.id=s.carid
+    and
+    carnum = #{num,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from car
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.standard.pojo.Car">
+    insert into car (id, carnum, cartype, 
+      driverid, sendbillid)
+    values (#{id,jdbcType=INTEGER}, #{carnum,jdbcType=VARCHAR}, #{cartype,jdbcType=VARCHAR}, 
+      #{driverid,jdbcType=INTEGER}, #{sendbillid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.standard.pojo.Car">
+    insert into car
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="carnum != null">
+        carnum,
+      </if>
+      <if test="cartype != null">
+        cartype,
+      </if>
+      <if test="driverid != null">
+        driverid,
+      </if>
+      <if test="sendbillid != null">
+        sendbillid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="carnum != null">
+        #{carnum,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null">
+        #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null">
+        #{driverid,jdbcType=INTEGER},
+      </if>
+      <if test="sendbillid != null">
+        #{sendbillid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.standard.pojo.Car">
+    update car
+    <set>
+      <if test="carnum != null">
+        carnum = #{carnum,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null">
+        cartype = #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null">
+        driverid = #{driverid,jdbcType=INTEGER},
+      </if>
+      <if test="sendbillid != null">
+        sendbillid = #{sendbillid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.standard.pojo.Car">
+    update car
+    set carnum = #{carnum,jdbcType=VARCHAR},
+      cartype = #{cartype,jdbcType=VARCHAR},
+      driverid = #{driverid,jdbcType=INTEGER},
+      sendbillid = #{sendbillid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

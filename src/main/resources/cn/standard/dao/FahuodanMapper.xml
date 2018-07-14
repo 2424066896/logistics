@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.standard.dao.FahuodanMapper">
+  <resultMap id="BaseResultMap" type="cn.standard.pojo.Fahuodan">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="qizhan" jdbcType="VARCHAR" property="qizhan" />
+    <result column="daozhan" jdbcType="VARCHAR" property="daozhan" />
+    <result column="huowumin" jdbcType="VARCHAR" property="huowumin" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="fahuoren" jdbcType="VARCHAR" property="fahuoren" />
+    <result column="shouhuoren" jdbcType="VARCHAR" property="shouhuoren" />
+    <result column="fatel" jdbcType="VARCHAR" property="fatel" />
+    <result column="shtel" jdbcType="VARCHAR" property="shtel" />
+    <result column="fahuodate" jdbcType="TIMESTAMP" property="fahuodate" />
+    <result column="ishuidan" jdbcType="VARCHAR" property="ishuidan" />
+    <result column="yunfei" jdbcType="INTEGER" property="yunfei" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, qizhan, daozhan, huowumin, amount, weight, fahuoren, shouhuoren, fatel, shtel, 
+    fahuodate, ishuidan, yunfei
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fahuodan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fahuodan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.standard.pojo.Fahuodan">
+    insert into fahuodan (id, qizhan, daozhan, 
+      huowumin, amount, weight, 
+      fahuoren, shouhuoren, fatel, 
+      shtel, fahuodate, ishuidan, 
+      yunfei)
+    values (#{id,jdbcType=INTEGER}, #{qizhan,jdbcType=VARCHAR}, #{daozhan,jdbcType=VARCHAR}, 
+      #{huowumin,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
+      #{fahuoren,jdbcType=VARCHAR}, #{shouhuoren,jdbcType=VARCHAR}, #{fatel,jdbcType=VARCHAR}, 
+      #{shtel,jdbcType=VARCHAR}, #{fahuodate,jdbcType=TIMESTAMP}, #{ishuidan,jdbcType=VARCHAR}, 
+      #{yunfei,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.standard.pojo.Fahuodan">
+    insert into fahuodan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="qizhan != null">
+        qizhan,
+      </if>
+      <if test="daozhan != null">
+        daozhan,
+      </if>
+      <if test="huowumin != null">
+        huowumin,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="fahuoren != null">
+        fahuoren,
+      </if>
+      <if test="shouhuoren != null">
+        shouhuoren,
+      </if>
+      <if test="fatel != null">
+        fatel,
+      </if>
+      <if test="shtel != null">
+        shtel,
+      </if>
+      <if test="fahuodate != null">
+        fahuodate,
+      </if>
+      <if test="ishuidan != null">
+        ishuidan,
+      </if>
+      <if test="yunfei != null">
+        yunfei,
+      </if>
+      <if test="danhao != null">
+        danhao,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="qizhan != null">
+        #{qizhan,jdbcType=VARCHAR},
+      </if>
+      <if test="daozhan != null">
+        #{daozhan,jdbcType=VARCHAR},
+      </if>
+      <if test="huowumin != null">
+        #{huowumin,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="fahuoren != null">
+        #{fahuoren,jdbcType=VARCHAR},
+      </if>
+      <if test="shouhuoren != null">
+        #{shouhuoren,jdbcType=VARCHAR},
+      </if>
+      <if test="fatel != null">
+        #{fatel,jdbcType=VARCHAR},
+      </if>
+      <if test="shtel != null">
+        #{shtel,jdbcType=VARCHAR},
+      </if>
+      <if test="fahuodate != null">
+        #{fahuodate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ishuidan != null">
+        #{ishuidan,jdbcType=VARCHAR},
+      </if>
+      <if test="yunfei != null">
+        #{yunfei,jdbcType=INTEGER},
+      </if>
+      <if test="danhao != null">
+        #{danhao,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.standard.pojo.Fahuodan">
+    update fahuodan
+    <set>
+      <if test="qizhan != null">
+        qizhan = #{qizhan,jdbcType=VARCHAR},
+      </if>
+      <if test="daozhan != null">
+        daozhan = #{daozhan,jdbcType=VARCHAR},
+      </if>
+      <if test="huowumin != null">
+        huowumin = #{huowumin,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="fahuoren != null">
+        fahuoren = #{fahuoren,jdbcType=VARCHAR},
+      </if>
+      <if test="shouhuoren != null">
+        shouhuoren = #{shouhuoren,jdbcType=VARCHAR},
+      </if>
+      <if test="fatel != null">
+        fatel = #{fatel,jdbcType=VARCHAR},
+      </if>
+      <if test="shtel != null">
+        shtel = #{shtel,jdbcType=VARCHAR},
+      </if>
+      <if test="fahuodate != null">
+        fahuodate = #{fahuodate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ishuidan != null">
+        ishuidan = #{ishuidan,jdbcType=VARCHAR},
+      </if>
+      <if test="yunfei != null">
+        yunfei = #{yunfei,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.standard.pojo.Fahuodan">
+    update fahuodan
+    set qizhan = #{qizhan,jdbcType=VARCHAR},
+      daozhan = #{daozhan,jdbcType=VARCHAR},
+      huowumin = #{huowumin,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      fahuoren = #{fahuoren,jdbcType=VARCHAR},
+      shouhuoren = #{shouhuoren,jdbcType=VARCHAR},
+      fatel = #{fatel,jdbcType=VARCHAR},
+      shtel = #{shtel,jdbcType=VARCHAR},
+      fahuodate = #{fahuodate,jdbcType=TIMESTAMP},
+      ishuidan = #{ishuidan,jdbcType=VARCHAR},
+      yunfei = #{yunfei,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

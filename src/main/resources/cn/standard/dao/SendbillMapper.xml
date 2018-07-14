@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.standard.dao.SendbillMapper">
+  <resultMap id="BaseResultMap" type="cn.standard.pojo.Sendbill">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sendnum" jdbcType="VARCHAR" property="sendnum" />
+    <result column="sender" jdbcType="VARCHAR" property="sender" />
+    <result column="serderphone" jdbcType="VARCHAR" property="serderphone" />
+    <result column="taker" jdbcType="VARCHAR" property="taker" />
+    <result column="takerphone" jdbcType="VARCHAR" property="takerphone" />
+    <result column="senddate" jdbcType="TIMESTAMP" property="senddate" />
+    <result column="start" jdbcType="VARCHAR" property="start" />
+    <result column="end" jdbcType="VARCHAR" property="end" />
+    <result column="goods" jdbcType="VARCHAR" property="goods" />
+    <result column="sendprice" jdbcType="DOUBLE" property="sendprice" />
+    <result column="paytype" jdbcType="VARCHAR" property="paytype" />
+    <result column="reply" jdbcType="VARCHAR" property="reply" />
+    <result column="sendtype" jdbcType="VARCHAR" property="sendtype" />
+    <result column="goodsstateid" jdbcType="INTEGER" property="goodsstateid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sendnum, sender, serderphone, taker, takerphone, senddate, start, end, goods, 
+    sendprice, paytype, reply, sendtype, goodsstateid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="sendResult">
+     select s.*,
+        g.id as g_id,g.goodsstate
+        FROM sendbill as s,goods as g
+        WHERE s.goodsstateid=g.id
+    and s.id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySendNum" resultType="cn.standard.pojo.Sendbill">
+    SELECT * FROM
+    sendbill
+    WHERE sendnum=#{num}
+  </select>
+
+
+
+  <resultMap id="sendResult" type="Sendbill">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sendnum" jdbcType="VARCHAR" property="sendnum" />
+    <result column="sender" jdbcType="VARCHAR" property="sender" />
+    <result column="serderphone" jdbcType="VARCHAR" property="serderphone" />
+    <result column="taker" jdbcType="VARCHAR" property="taker" />
+    <result column="takerphone" jdbcType="VARCHAR" property="takerphone" />
+    <result column="senddate" jdbcType="TIMESTAMP" property="senddate" />
+    <result column="start" jdbcType="VARCHAR" property="start" />
+    <result column="end" jdbcType="VARCHAR" property="end" />
+    <result column="goods" jdbcType="VARCHAR" property="goods" />
+    <result column="sendprice" jdbcType="DOUBLE" property="sendprice" />
+    <result column="paytype" jdbcType="VARCHAR" property="paytype" />
+    <result column="reply" jdbcType="VARCHAR" property="reply" />
+    <result column="sendtype" jdbcType="VARCHAR" property="sendtype" />
+
+    <result column="goodsstate" jdbcType="VARCHAR" property="goodsname" />
+  </resultMap>
+
+  <select id="selectBySendnum" resultMap="sendResult">
+        select s.*,
+        g.id as g_id,g.goodsstate
+        FROM sendbill as s,goods as g
+        WHERE s.goodsstateid=g.id
+
+  </select>
+  <select id="selectByDuoTiaojian" resultMap="sendResult">
+        select s.*,
+        g.id as g_id,g.goodsstate
+        FROM sendbill as s,goods as g
+        <where>
+            <if test="start!=null and start!=''">
+                and `start`=#{start}
+            </if>
+            <if test="end!=null and end!=''">
+              and `end`=#{end}
+            </if>
+            <if test="senddate!=null and senddate!=''">
+              and senddate=#{senddate}
+            </if>
+            <if test="sendnum!=null and sendnum!=''">
+              and sendnum=#{sendnum}
+            </if>
+            <if test="goodsstateid!=null and goodsstateid!=''">
+              and goodsstateid=#{goodsstateid}
+            </if>
+            <if test="goods!=null and goods!=''">
+              and goods=#{goods}
+            </if>
+          AND s.goodsstateid=g.id
+        </where>
+        limit #{form},#{pageSize}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM sendbill
+  </select>
+  <select id="countByCondition" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM sendbill
+    <where>
+      <if test="start!=null and start!=''">
+        and `start`=#{start}
+      </if>
+      <if test="end!=null and end!=''">
+        and `end`=#{end}
+      </if>
+      <if test="senddate!=null and senddate!=''">
+        and senddate=#{senddate}
+      </if>
+      <if test="sendnum!=null and sendnum!=''">
+        and sendnum=#{sendnum}
+      </if>
+      <if test="goodsstateid!=null and goodsstateid!=''">
+        and goodsstateid=#{goodsstateid}
+      </if>
+      <if test="goods!=null and goods!=''">
+        and goods=#{goods}
+      </if>
+    </where>
+
+
+  </select>
+  <select id="seclectCount" resultType="java.lang.Integer">
+    SELECT COUNT(1) from sendbill
+    WHERE
+    start=#{start} and end=#{end}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sendbill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.standard.pojo.Sendbill">
+    insert into sendbill (id, sendnum, sender, 
+      serderphone, taker, takerphone, 
+      senddate, start, end, 
+      goods, sendprice, paytype, 
+      reply, sendtype, goodsstateid
+      )
+    values (#{id,jdbcType=INTEGER}, #{sendnum,jdbcType=VARCHAR}, #{sender,jdbcType=VARCHAR}, 
+      #{serderphone,jdbcType=VARCHAR}, #{taker,jdbcType=VARCHAR}, #{takerphone,jdbcType=VARCHAR}, 
+      #{senddate,jdbcType=TIMESTAMP}, #{start,jdbcType=VARCHAR}, #{end,jdbcType=VARCHAR}, 
+      #{goods,jdbcType=VARCHAR}, #{sendprice,jdbcType=DOUBLE}, #{paytype,jdbcType=VARCHAR}, 
+      #{reply,jdbcType=VARCHAR}, #{sendtype,jdbcType=VARCHAR}, #{goodsstateid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.standard.pojo.Sendbill">
+    insert into sendbill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sendnum != null">
+        sendnum,
+      </if>
+      <if test="sender != null">
+        sender,
+      </if>
+      <if test="serderphone != null">
+        serderphone,
+      </if>
+      <if test="taker != null">
+        taker,
+      </if>
+      <if test="takerphone != null">
+        takerphone,
+      </if>
+      <if test="senddate != null">
+        senddate,
+      </if>
+      <if test="start != null">
+        start,
+      </if>
+      <if test="end != null">
+        end,
+      </if>
+      <if test="goods != null">
+        goods,
+      </if>
+      <if test="sendprice != null">
+        sendprice,
+      </if>
+      <if test="paytype != null">
+        paytype,
+      </if>
+      <if test="reply != null">
+        reply,
+      </if>
+      <if test="sendtype != null">
+        sendtype,
+      </if>
+      <if test="goodsstateid != null">
+        goodsstateid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sendnum != null">
+        #{sendnum,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="serderphone != null">
+        #{serderphone,jdbcType=VARCHAR},
+      </if>
+      <if test="taker != null">
+        #{taker,jdbcType=VARCHAR},
+      </if>
+      <if test="takerphone != null">
+        #{takerphone,jdbcType=VARCHAR},
+      </if>
+      <if test="senddate != null">
+        #{senddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="start != null">
+        #{start,jdbcType=VARCHAR},
+      </if>
+      <if test="end != null">
+        #{end,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null">
+        #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="sendprice != null">
+        #{sendprice,jdbcType=DOUBLE},
+      </if>
+      <if test="paytype != null">
+        #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null">
+        #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtype != null">
+        #{sendtype,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsstateid != null">
+        #{goodsstateid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.standard.pojo.Sendbill">
+    update sendbill
+    <set>
+      <if test="sendnum != null">
+        sendnum = #{sendnum,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        sender = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="serderphone != null">
+        serderphone = #{serderphone,jdbcType=VARCHAR},
+      </if>
+      <if test="taker != null">
+        taker = #{taker,jdbcType=VARCHAR},
+      </if>
+      <if test="takerphone != null">
+        takerphone = #{takerphone,jdbcType=VARCHAR},
+      </if>
+      <if test="senddate != null">
+        senddate = #{senddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="start != null">
+        start = #{start,jdbcType=VARCHAR},
+      </if>
+      <if test="end != null">
+        end = #{end,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null">
+        goods = #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="sendprice != null">
+        sendprice = #{sendprice,jdbcType=DOUBLE},
+      </if>
+      <if test="paytype != null">
+        paytype = #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null">
+        reply = #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtype != null">
+        sendtype = #{sendtype,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsstateid != null">
+        goodsstateid = #{goodsstateid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.standard.pojo.Sendbill">
+    update sendbill
+    set sendnum = #{sendnum,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=VARCHAR},
+      serderphone = #{serderphone,jdbcType=VARCHAR},
+      taker = #{taker,jdbcType=VARCHAR},
+      takerphone = #{takerphone,jdbcType=VARCHAR},
+      senddate = #{senddate,jdbcType=TIMESTAMP},
+      start = #{start,jdbcType=VARCHAR},
+      end = #{end,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR},
+      sendprice = #{sendprice,jdbcType=DOUBLE},
+      paytype = #{paytype,jdbcType=VARCHAR},
+      reply = #{reply,jdbcType=VARCHAR},
+      sendtype = #{sendtype,jdbcType=VARCHAR},
+      goodsstateid = #{goodsstateid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByGoodsId">
+        update sendbill set goodsstateid =  #{gid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+
+  <update id="updateById">
+     update sendbill set carid =  #{carid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.standard.dao.NewsDetailMapper">
+  <resultMap id="BaseResultMap" type="cn.standard.pojo.NewsDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="createdate" jdbcType="DATE" property="createdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, summary, author, createdate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from news_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findAllNewsByNameWithPage" resultType="cn.standard.pojo.NewsDetail">
+    SELECT * from news_detail
+    <where>
+      <if test="title!=null and title!=''">
+        AND  title LIKE  concat('%',#{title},'%')
+      </if>
+    </where>
+    order by createdate desc
+    limit #{from},#{pageSize}
+
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    SELECT COUNT(1) from news_detail
+  </select>
+  <select id="selectCountName" resultType="java.lang.Integer">
+    SELECT COUNT(1) from news_detail
+    <where>
+      <if test="title!=null and title!=''">
+        AND  title LIKE  concat('%',#{title},'%')
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.standard.pojo.NewsDetail">
+    insert into news_detail (id, title, summary, 
+      author, createdate)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{createdate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.standard.pojo.NewsDetail">
+    insert into news_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="createdate != null">
+        createdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.standard.pojo.NewsDetail">
+    update news_detail
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        createdate = #{createdate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.standard.pojo.NewsDetail">
+    update news_detail
+    set title = #{title,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      createdate = #{createdate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
